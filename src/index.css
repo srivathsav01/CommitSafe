@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  font-family: ui-serif, serif;
+}
+
+/* Light Mode */
+@theme {
+  --color-bgprimary: #121212;
+  --color-bgsecondary: #0A0A0A;
+  --color-bglight: #f3f3f3;
+  --color-textprimary: #FFFFFF;
+  --color-textsecondary: #B3B3B3;
+}
+
+.dark {
+  --color-bgprimary: #FFFFFF;
+  --color-bgsecondary: #F3F3F3;
+  --color-bglight: #1E1E1E;
+  --color-textprimary: #121212;
+  --color-textsecondary: #4F4F4F;
+}
