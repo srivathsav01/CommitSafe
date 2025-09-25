@@ -5,6 +5,8 @@ import AppLayout from './pages/AppLayout';
 import { ROUTES } from './utils/routes';
 import Scan from './pages/Scan';
 import Error from './pages/Error';
+import DashBoard from './pages/DashBoard';
+import { UserProvider } from './contexts/UserContexts';
 
 function App() {
 
@@ -15,8 +17,8 @@ function App() {
         { path: '/', element: <HomePage /> },
         { path: '/'+ ROUTES.HOME, element: <HomePage /> },
         { path: '/'+ ROUTES.ANALYSE, element: <Scan /> },
-        { path: '/'+ ROUTES.DASHBOARD, element: <div className='text-center text-2xl mt-10'>Dashboard Page Coming Soon!</div> },
-        { path: '/'+ ROUTES.SETTINGS, element: <div className='text-center text-2xl mt-10'>About Page Coming Soon!</div> },
+        { path: '/'+ ROUTES.DASHBOARD, element: <DashBoard /> },
+        { path: '/'+ ROUTES.SETTINGS, element: <div className='text-center text-2xl mt-10'>Settings Page Coming Soon!</div> },
         { path: '*', element: <Error /> }
       ]
     }
@@ -24,7 +26,9 @@ function App() {
 
   return (
     <>
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
     </>
   );
 }
