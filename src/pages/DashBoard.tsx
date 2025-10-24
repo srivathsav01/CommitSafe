@@ -1,20 +1,20 @@
 import { FolderGit2, Lock, ShieldAlert, Zap } from "lucide-react";
 import DashboardCard from "../components/DashBoardCard";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/utils/routes";
 
 const trendExample = [
     { day: "Mon", value: 2 },
     { day: "Tue", value: 0 },
     { day: "Wed", value: 4 },
-    { day: "Thu", value: 6 },
+    { day: "Thu", value: 0 },
     { day: "Fri", value: 8 },
 ];
 function DashBoard() {
 
+    const navigate = useNavigate();
     return (
         <>
-        {/* <div className="text-textsecondary p-2 font-semibold text-lg laptop:text-2xl justify-center align-center flex">
-            Dashboard
-        </div> */}
             <div className="grid grid-cols-2 laptop:grid-cols-4 gap-4 p-6">
                 <DashboardCard
                     title="Repos Scanned"
@@ -42,7 +42,7 @@ function DashBoard() {
                     titleicon={<Zap className="hidden laptop:block" size={20} />}
                     color="text-blue-600"
                     variant="clickable"
-                    onClick={() => alert("Quick Scan Clicked!")}
+                    onClick={() => {navigate("/"+ROUTES.ANALYSE)}}
                 />
             </div>
         </>

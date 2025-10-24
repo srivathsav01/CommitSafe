@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../utils/routes";
 import { Clock } from "lucide-react";
 import { useState } from "react";
+import { motion, type Transition } from "framer-motion";
 
 function HomePage() {
 

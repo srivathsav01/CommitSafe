@@ -4,12 +4,20 @@ import { ROUTES } from "../utils/routes";
 import { toTitleCase } from "../utils/utils";
 import { useUser } from "../contexts/UserContexts";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 function Header({ setIsNavOpen}: {setIsNavOpen: (isOpen: boolean)=>void}) {
 
     const { user,setUser } = useUser();
     const {pathname} = useLocation();
+    const [hovered, setHovered] = useState<string|null>(null);
     const [isUserDrawerOpen,setIsUserDrawerOpen] = useState<boolean>(false);
+    const Routes = [
+        { path: "/", label: toTitleCase(ROUTES.HOME) },
+        { path: "/" + ROUTES.DASHBOARD, label: toTitleCase(ROUTES.DASHBOARD) },
+        { path: "/" + ROUTES.ANALYSE, label: toTitleCase(ROUTES.ANALYSE) },
+        { path: "/" + ROUTES.SETTINGS, label: toTitleCase(ROUTES.SETTINGS) },
+    ];
     const Signin = () => {
     
     }
@@ -18,16 +26,32 @@ function Header({ setIsNavOpen}: {setIsNavOpen: (isOpen: boolean)=>void}) {
     <div className="item-center flex justify-center">
         <div className="header bg-bgprimary text-textprimary p-3 w-3/4 flex justify-between items-center mt-2 rounded-2xl border border-[#4F4F4F] dark:border-[#dddddd]">
             <Binoculars size={30} strokeWidth={1} className="ml-1.5"/>
-             <div className="nav w-64 hidden laptop:block">
-                <ul className="flex flex-col laptop:flex-row gap-6 text-lg font-medium justify-between">
-                    <li className={`hover:underline underline-offset-4 decoration-2 decoration-textprimary cursor-pointer ${pathname === '/' ? 'text-textprimary font-bold' : ''}`}>
-                        <NavLink to="/"> {toTitleCase(ROUTES.HOME)} </NavLink>
-                    </li>
-                    <li className={`hover:underline underline-offset-4 decoration-2 decoration-textprimary cursor-pointer ${pathname === '/'+ROUTES.DASHBOARD ? 'text-textprimary font-bold' : ''}`}><NavLink to={"/"+ ROUTES.DASHBOARD} > {toTitleCase(ROUTES.DASHBOARD)} </NavLink></li>
-                    <li className={`hover:underline underline-offset-4 decoration-2 decoration-textprimary cursor-pointer ${pathname === '/'+ROUTES.ANALYSE ? 'text-textprimary font-bold' : ''}`}><NavLink to={"/"+ ROUTES.ANALYSE} > {toTitleCase(ROUTES.ANALYSE)} </NavLink></li>
-                    <li className={`hover:underline underline-offset-4 decoration-2 decoration-textprimary cursor-pointer ${pathname === '/'+ROUTES.SETTINGS ? 'text-textprimary font-bold' : ''}`}><NavLink to={"/"+ ROUTES.SETTINGS}> {toTitleCase(ROUTES.SETTINGS)} </NavLink></li>
-                </ul>
-            </div>
+                <div className="nav w-64 hidden laptop:block">
+                    <ul className="flex flex-col laptop:flex-row gap-6 text-lg font-medium justify-between relative">
+                        {Routes.map(({ path, label }) => {
+                            const isActive = pathname === path;
+                            return (
+                                <li key={path} className={`relative cursor-pointer ${isActive ? "text-textprimary font-bold" : ""}`}>
+                                    <NavLink
+                                        to={path}
+                                        className="flex flex-col items-start hover:text-textsecondary transition duration-200"
+                                        onMouseEnter={() => setHovered(path)}
+                                        onMouseLeave={() => setHovered(null)}
+                                    >
+                                        {label}
+                                        {(hovered === path || isActive) && (
+                                            <motion.div
+                                                layoutId="underline"
+                                                className="absolute bottom-0 left-0 right-0 h-[2px] bg-textprimary"
+                                                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                            />
+                                        )}
+                                    </NavLink>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
             <div className="actions flex items-center justify-end w-1/5">
                 { user ? 
                     <div className="relative">
